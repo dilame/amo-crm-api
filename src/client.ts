@@ -8,15 +8,18 @@ export class AmoCrmApiClient {
   public requestPromise: any;
 
   constructor(private credentials: ICredentialsInterface) {
-    this.requestPromise = request.defaults({
+    this.setRequestDefaults({
       baseUrl: `https://${this.credentials.subdomain}.amocrm.ru/`,
       jar: true,
+      json: true,
       qs: {
         type: 'json',
       },
     });
   }
-
+  public setRequestDefaults(options){
+    this.requestPromise = request.defaults(options);
+  }
   public authenticate(): Promise<any> {
     return this.requestPromise.post({
       uri: '/private/api/auth.php',
